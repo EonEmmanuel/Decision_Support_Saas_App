@@ -1,35 +1,27 @@
 export const locales = ["en", "fr", "de"] as const;
 export type Locale = (typeof locales)[number];
 
-export const translationKeys = {
-  common: {
-    getStarted: "common.getStarted",
-    requestDemo: "common.requestDemo",
-    upload: "common.upload",
-    processing: "common.processing",
-    completed: "common.completed"
+export const dictionary: Record<Locale, Record<string, string>> = {
+  en: {
+    "common.getStarted": "Get Started",
+    "common.login": "Login",
+    "dashboard.title": "Dashboard",
+    "settings.language": "Language"
   },
-  landing: {
-    heroTitle: "landing.hero.title",
-    heroSubtitle: "landing.hero.subtitle",
-    featuresTitle: "landing.features.title",
-    pricingTitle: "landing.pricing.title"
+  fr: {
+    "common.getStarted": "Commencer",
+    "common.login": "Connexion",
+    "dashboard.title": "Tableau de bord",
+    "settings.language": "Langue"
   },
-  dashboard: {
-    homeTitle: "dashboard.home.title",
-    kpiEnergy: "dashboard.kpi.energy",
-    kpiCo2: "dashboard.kpi.co2",
-    kpiRoi: "dashboard.kpi.roi",
-    kpiSavings: "dashboard.kpi.savings"
-  },
-  settings: {
-    language: "settings.language",
-    profile: "settings.profile"
+  de: {
+    "common.getStarted": "Loslegen",
+    "common.login": "Anmelden",
+    "dashboard.title": "Dashboard",
+    "settings.language": "Sprache"
   }
-} as const;
-
-export const translations: Record<Locale, Record<string, string>> = {
-  en: {},
-  fr: {},
-  de: {}
 };
+
+export function t(locale: Locale, key: string) {
+  return dictionary[locale][key] ?? key;
+}

@@ -1,7 +1,6 @@
-import { roadmap } from "@/lib/mock-data";
 import { Card } from "@/components/ui/card";
 
-export function RoadmapTimeline() {
+export function RoadmapTimeline({ roadmap }: { roadmap: Array<{ year: number; title: string; detail: string }> }) {
   return (
     <Card>
       <h3 className="mb-6 font-semibold">Roadmap to 2030</h3>
