@@ -1,0 +1,59 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id        String           @id @default(cuid())
+  email     String           @unique
+  password  String
+  createdAt DateTime         @default(now())
+  files     File[]
+  analyses  AnalysisResult[]
+}
+
+model File {
+  id          String           @id @default(cuid())
+  originalName String
+  storedName  String
+  mimeType    String
+  size        Int
+  status      FileStatus       @default(uploaded)
+  createdAt   DateTime         @default(now())
+  updatedAt   DateTime         @updatedAt
+  userId      String
+  user        User             @relation(fields: [userId], references: [id], onDelete: Cascade)
+  analyses    AnalysisResult[]
+}
+
+model AnalysisResult {
+  id             String   @id @default(cuid())
+  status         AnalysisStatus @default(processing)
+  buildingInfo   Json
+  kpis           Json
+  energyData     Json
+  recommendations Json
+  roadmap        Json
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+  userId         String
+  fileId         String
+  user           User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  file           File     @relation(fields: [fileId], references: [id], onDelete: Cascade)
+}
+
+enum FileStatus {
+  uploaded
+  processing
+  completed
+}
+
+enum AnalysisStatus {
+  processing
+  completed
+  failed
+}
